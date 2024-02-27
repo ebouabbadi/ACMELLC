@@ -1,33 +1,19 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { userProps } from '../../types/userTypes';
 
 const Home = () => {
   const [users, setUsers] = useState([]);
-
-  interface userProps {
-    id: number
-    firstName: string,
-    email: string
-    image: string
-    lastName: string
-    address: {
-      address: string,
-      city: string
-    }
-    phone: string
-  }
 
   useEffect(() => {
     (
       async () => {
         try {
-
           const response = await fetch('http://localhost:3001/users', {
           });
           const content = await response.json();
           if (response.ok) {
             setUsers(Array.from(content));
-            console.log('-????????//', content)
           }
         } catch (error) {
         }
@@ -35,14 +21,12 @@ const Home = () => {
     )();
   }, []);
 
-
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 6;
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
   const [nbr, setNbr] = useState(1);
-
 
   const renderUsers = () => {
     return currentUsers.map((user: userProps, index) => (
